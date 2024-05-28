@@ -3,7 +3,7 @@ const Cours = require('../models/coursModel');
 // Get all cours
 const getCours = async (req, res) => {
   try {
-    const cours = await Cours.find().populate('responsable').populate('candidats').populate('supports');
+    const cours = await Cours.find().populate('responsable').populate('supports');
     res.status(200).json(cours);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -13,7 +13,7 @@ const getCours = async (req, res) => {
 // Get single cours
 const getCoursById = async (req, res) => {
   try {
-    const cours = await Cours.findById(req.params.id).populate('responsable').populate('candidats').populate('supports');
+    const cours = await Cours.findById(req.params.id).populate('responsable').populate('supports');
     if (!cours) {
       return res.status(404).json({ message: 'Cours not found' });
     }
@@ -37,7 +37,7 @@ const createCours = async (req, res) => {
 
 // Update cours
 const updateCours = async (req, res) => {
-  const { titre, description, responsable } = req.body;
+  const { titre, description, responsable, supports } = req.body;
   try {
     const cours = await Cours.findById(req.params.id);
     if (!cours) {
@@ -47,6 +47,7 @@ const updateCours = async (req, res) => {
     cours.titre = titre || cours.titre;
     cours.description = description || cours.description;
     cours.responsable = responsable || cours.responsable;
+    cours.supports = supports || cours.supports;
 
     const updatedCours = await cours.save();
     res.status(200).json(updatedCours);

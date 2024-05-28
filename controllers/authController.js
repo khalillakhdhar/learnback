@@ -37,6 +37,7 @@ const register = async (req, res) => {
       },
     });
   } catch (error) {
+    console.error('Server error:', error.message);
     res.status(500).json({ message: error.message });
   }
 };
@@ -67,6 +68,7 @@ const login = async (req, res) => {
       },
     });
   } catch (error) {
+    console.error('Server error:', error.message);
     res.status(500).json({ message: error.message });
   }
 };
@@ -76,6 +78,7 @@ const getMe = async (req, res) => {
     const user = await Candidat.findById(req.user.id).select('-mdp');
     res.json(user);
   } catch (error) {
+    console.error('Server error:', error.message);
     res.status(500).json({ message: error.message });
   }
 };

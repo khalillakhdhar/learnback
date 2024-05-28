@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const options = { discriminatorKey: 'role', collection: 'users' };
 
-const candidatSchema = mongoose.Schema(
+const candidatSchema = new mongoose.Schema(
   {
     nom: {
       type: String,

@@ -58,19 +58,21 @@ const updateCandidat = async (req, res) => {
 };
 
 // Delete candidat
+
 const deleteCandidat = async (req, res) => {
   try {
-    const candidat = await Candidat.findById(req.params.id);
+    const candidat = await Candidat.findById(req.params.id)
     if (!candidat) {
-      return res.status(404).json({ message: 'Candidat not found' });
+      return res.status(404).json({ message: 'Candidat non trouvé' })
     }
-    await candidat.remove();
-    res.status(200).json({ message: 'Candidat removed' });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
 
+    await Candidat.findByIdAndDelete(req.params.id)
+    res.json({ message: 'Candidat supprimé avec succès' })
+  } catch (error) {
+    console.error(error.message)
+    res.status(500).json({ message: 'Erreur du serveur' })
+  }
+}
 module.exports = {
   getCandidats,
   getCandidatById,

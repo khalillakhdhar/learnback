@@ -1,4 +1,5 @@
 const Support = require('../models/supportModel');
+const Cours = require('../models/coursModel');
 
 // Get all supports
 const getSupports = async (req, res) => {
@@ -29,12 +30,20 @@ const createSupport = async (req, res) => {
   try {
     const support = new Support({ titre, pieceJointe, cours });
     await support.save();
+
+    // Ajouter le support au cours correspondant
+    const coursToUpdate = await Cours.findById(cours);
+    if (!coursToUpdate) {
+      return res.status(404).json({ message: 'Cours not found' });
+    }
+    coursToUpdate.supports.push(support._id);
+    await coursToUpdate.save();
+
     res.status(201).json(support);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
-
 // Update support
 const updateSupport = async (req, res) => {
   const { titre, pieceJointe, cours } = req.body;

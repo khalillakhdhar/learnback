@@ -11,6 +11,9 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
+// add cors
+const cors = require('cors');
+app.use(cors());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/candidats', candidatRoutes);
